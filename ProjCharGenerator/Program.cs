@@ -1,44 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace generator
 {
-    class CharGenerator 
-    {
-        private string syms = "абвгдеёжзийклмнопрстуфхцчшщьыъэюя"; 
-        private char[] data;
-        private int size;
-        private Random random = new Random();
-        public CharGenerator() 
-        {
-           size = syms.Length;
-           data = syms.ToCharArray(); 
-        }
-        public char getSym() 
-        {
-           return data[random.Next(0, size)]; 
-        }
-    }
     class Program
     {
         static void Main(string[] args)
         {
-            CharGenerator gen = new CharGenerator();
-            SortedDictionary<char, int> stat = new SortedDictionary<char, int>();
-            for(int i = 0; i < 1000; i++) 
-            {
-               char ch = gen.getSym(); 
-               if (stat.ContainsKey(ch))
-                  stat[ch]++;
-               else
-                  stat.Add(ch, 1); Console.Write(ch);
-            }
-            Console.Write('\n');
-            foreach (KeyValuePair<char, int> entry in stat) 
-            {
-                 Console.WriteLine("{0} - {1}",entry.Key,entry.Value/1000.0); 
-            }
-            
+            BigramGenerator bg = new BigramGenerator();
+            string bigramText = bg.GenerateText(1000, 10);
+            Console.WriteLine(bigramText + "\n");
+            TextSaver.Save(bigramText, "BigramText.txt");
+
+            WordGenerator wg = new WordGenerator();
+            string wordText = wg.GenerateText(1000, 10);
+            Console.WriteLine(wordText + "\n");
+            TextSaver.Save(wordText, "WordText.txt");
+
+            PairGenerator pg = new PairGenerator();
+            string pairText = pg.GenerateText(1000, 10);
+            Console.WriteLine(pairText + "\n");
+            TextSaver.Save(pairText, "PairText.txt");
         }
     }
 }
